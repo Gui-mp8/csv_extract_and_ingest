@@ -1,4 +1,4 @@
-<h1>How to transport data from  a PostgreSQL Container and Local to MySQL Container</h1>
+<h1>How to transport locally data and data from a PostgreSQL Container to MySQL Container</h1>
 
 <h2>About:</h2 >
 
