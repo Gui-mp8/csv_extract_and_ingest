@@ -1,9 +1,9 @@
-<h1>Indicium Challenge</h1>
+<h1>How to transport data from  a PostgreSQL Container and Local to MySQL Container</h1>
 
 <h2>About:</h2 >
 
 <p>
-The goal of this challenge is to take data from two different types of data sources (PostgreSQL and local), transfer these data to a SGBD of my choice(MySQL) and then generate a .csv file from a query that returns the combination of the table orders and the table order_details.
+The goal of this project is to take data from two different types of data sources (PostgreSQL and local), transfer these data to MySQL and then generate a .csv file from a query that returns the combination of the table orders and the table order_details.
 </p>
 
 #
@@ -25,6 +25,19 @@ The goal of this challenge is to take data from two different types of data sour
   - Windows: https://www.alphr.com/how-to-check-which-ports-open-windows-10-pc/
   - Linux: https://adamtheautomator.com/check-if-a-port-is-open-in-linux/
   - Mac: https://apple.stackexchange.com/questions/117644/how-can-i-list-my-open-network-ports-with-netstat
+</p>
+
+<h3>Let's talk about the docker-compose.yaml:</h3>
+
+<p>
+
+- We'll be using a PostgreSQL container that already exists a dataset. For that, **pay attention at the volumes in docker-compose.yaml, you must set the path of northwind.sql correctaly**
+
+```
+./northwind.sql:/docker-entrypoint-initdb.d/northwind.sql
+```
+
+See that northwind.sql isn't inside a directory. This command at volumes are saying to our docker-compose that it'll read any .sql file from that path, and will put into the PostgreSQL Container.
 </p>
 
 #
@@ -75,18 +88,7 @@ The goal of this challenge is to take data from two different types of data sour
 <p>
   <h3>
   For the creation of the databases environment, it's only necessary to run the docker-compose.yaml.
-<p>
 
-  **OBS: Before you run the docker-compose.yaml, pay attention at the nowthwind.sql path on volumes. If you don't set it correctly, you'll not succeed in runing the code.**
-
-```
-[your_path]\desafio_indicium\northwind.sql:/docker-entrypoint-initdb.d/northwind.sql
-```
-Exemple:
-
-```
-C:\Users\gui_p\vscode\python\desafio_indicium\northwind.sql:/docker-entrypoint-initdb.d/northwind.sql
-```
   </h3>
 </p>
 <h3>1 - Creating PostgreSQL and MySQL in docker:</h3>
@@ -218,7 +220,7 @@ pip install -r requirements.txt
 
   - **insert_mysql** - Inserts the respective data into their respective tables.
 
-  - **the_goal** - Generate the goal of the challenge.
+  - **the_goal** - Generate the goal of the project.
   </h4>
 </p> 
 
