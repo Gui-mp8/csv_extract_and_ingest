@@ -85,7 +85,8 @@ TABLE_ORDERS = '''CREATE TABLE orders (
                                         ship_city character varying(15),
                                         ship_region character varying(15),
                                         ship_postal_code character varying(10),
-                                        ship_country character varying(15)
+                                        ship_country character varying(15),
+                                        PRIMARY KEY (order_id)
                                     )'''
 
 TABLE_PRODUCTS = '''CREATE TABLE products (
@@ -147,7 +148,8 @@ TABLE_ORDER_DETAILS = '''CREATE TABLE order_details (
                                                     product_id smallint NOT NULL,
                                                     unit_price real,
                                                     quantity smallint,
-                                                    discount real
+                                                    discount real,
+                                                    FOREIGN KEY (order_id) REFERENCES orders(order_id)
                                                     )'''          
                                                     
 LISTA_DDL = [TABLE_CATEGORIES,
@@ -164,5 +166,127 @@ LISTA_DDL = [TABLE_CATEGORIES,
              TABLE_TERRITORIES,
              TABLE_US_STATES,
              TABLE_ORDER_DETAILS]
-                                                                                                                                                                         
-                                                                                                                                                                                                                                                                                   
+                                                                                                                                                                        
+ALTER_TABLES_PK = '''
+                  ALTER TABLE categories
+                      ADD CONSTRAINT pk_categories 
+                      PRIMARY KEY (category_id);
+    
+                  ALTER TABLE customer_customer_demo
+                      ADD CONSTRAINT pk_customer_customer_demo_customer_id 
+                      PRIMARY KEY (customer_id);
+                      
+                  ALTER TABLE customer_customer_demo
+                      ADD CONSTRAINT pk_customer_customer_demo_type_id 
+                      PRIMARY KEY (customer_type_id);
+                      
+                  ALTER TABLE customer_demographics
+                      ADD CONSTRAINT pk_customer_demographics 
+                      PRIMARY KEY (customer_type_id);
+                      
+                  ALTER TABLE customers
+                      ADD CONSTRAINT pk_customers 
+                      PRIMARY KEY (customer_id);
+                      
+                  ALTER TABLE employees
+                      ADD CONSTRAINT pk_employees 
+                      PRIMARY KEY (employee_id);
+                      
+                  ALTER TABLE employee_territories
+                      ADD CONSTRAINT pk_employee_territories_employee_id
+                      PRIMARY KEY (employee_id);
+                      
+                  ALTER TABLE employee_territories
+                      ADD CONSTRAINT pk_employee_territories_territory_id 
+                      PRIMARY KEY (territory_id);    
+                      
+                  ALTER TABLE orders
+                      ADD CONSTRAINT pk_orders 
+                      PRIMARY KEY (order_id);
+                      
+                  ALTER TABLE products
+                      ADD CONSTRAINT pk_products 
+                      PRIMARY KEY (product_id);
+                      
+                  ALTER TABLE region
+                      ADD CONSTRAINT pk_region 
+                      PRIMARY KEY (region_id);
+                      
+                  ALTER TABLE shippers
+                      ADD CONSTRAINT pk_shippers 
+                      PRIMARY KEY (shipper_id);
+                      
+                  ALTER TABLE suppliers
+                      ADD CONSTRAINT pk_suppliers 
+                      PRIMARY KEY (supplier_id);
+                      
+                  ALTER TABLE territories
+                      ADD CONSTRAINT pk_territories 
+                      PRIMARY KEY (territory_id);
+                      
+                  ALTER TABLE us_states
+                      ADD CONSTRAINT pk_usstates 
+                      PRIMARY KEY (state_id);
+                  '''
+              
+ALTER_TABLES_FK = '''             
+                  ALTER TABLE orders
+                      ADD CONSTRAINT fk_orders_customers 
+                      FOREIGN KEY (customer_id) 
+                      REFERENCES customers(customer_id);
+                      
+                  ALTER TABLE orders
+                      ADD CONSTRAINT fk_orders_employees 
+                      FOREIGN KEY (employee_id) 
+                      REFERENCES employees(employee_id);
+                      
+                  ALTER TABLE orders
+                      ADD CONSTRAINT fk_orders_shippers 
+                      FOREIGN KEY (ship_via) 
+                      REFERENCES shippers(ship_via);
+                      
+                  ALTER TABLE products
+                      ADD CONSTRAINT fk_products_categories 
+                      FOREIGN KEY (category_id) 
+                      REFERENCES categories(category_id);
+                      
+                  ALTER TABLE products
+                      ADD CONSTRAINT fk_products_suppliers 
+                      FOREIGN KEY (supplier_id) 
+                      REFERENCES suppliers(supplier_id);
+                      
+                  ALTER TABLE territories
+                      ADD CONSTRAINT fk_territories_region 
+                      FOREIGN KEY (region_id) 
+                      REFERENCES region(region_id);
+                      
+                  ALTER TABLE employee_territories
+                      ADD CONSTRAINT fk_employee_territories_territories 
+                      FOREIGN KEY (territory_id) 
+                      REFERENCES territories(territory_id);
+                      
+                  ALTER TABLE employee_territories
+                      ADD CONSTRAINT fk_employee_territories_employees 
+                      FOREIGN KEY (employee_id) 
+                      REFERENCES employees(employee_id);
+                      
+                  ALTER TABLE customer_customer_demo
+                      ADD CONSTRAINT fk_customer_customer_demo_customer_demographics 
+                      FOREIGN KEY (customer_type_id) 
+                      REFERENCES customer_demographics(customer_type_id);
+                      
+                  ALTER TABLE customer_customer_demo
+                      ADD CONSTRAINT fk_customer_customer_demo_customers 
+                      FOREIGN KEY (customer_id) 
+                      REFERENCES customers(customer_id);
+                      
+                  ALTER TABLE employees
+                      ADD CONSTRAINT fk_employees_employees 
+                      FOREIGN KEY (reports_to) 
+                      REFERENCES employees(reports_to);
+                      
+                  ALTER TABLE order_details
+                    ADD CONSTRAINT fk_orders_id
+                    FOREIGN KEY (order_id)
+                    REFERENCES orders(order_id)
+                  '''
